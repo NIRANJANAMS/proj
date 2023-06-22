@@ -1,9 +1,14 @@
 import React from 'react'
-import Select from 'react-select'
 import { useState } from 'react';
+import { Link} from "react-router-dom";
 import './JobSearch.css'
+import * as FaIcons from "react-icons/fa";
+import * as AiIcons from "react-icons/ai";
+import { SidebarData } from './SidebarData';
 
 export default function JobList() {
+  const [sidebar,setSidebar]=useState(false);
+    const showSidebar =() => setSidebar(!sidebar);
   const [sort, setSort] = useState("sort");
 
   const handleChange = (event) => {
@@ -11,11 +16,35 @@ export default function JobList() {
   }
   return (
     <div className='App' style={{backgroundImage:'bg1.jpeg'}}>
+      <div>
+      <div className='navbar'>
+       <Link to='#' className='menu-bars'>
+            <FaIcons.FaBars onClick={showSidebar}/>
+
+        </Link>  
+    </div>
+    <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
+        <ul className='nav-menu-items' onClick={showSidebar}>
+            <li className='navbar-toggle'>
+                <Link to="#" className='menu-bars'>
+                    <AiIcons.AiOutlineClose />
+                </Link>
+            </li>
+            {SidebarData.map((item,index) => {
+                return (
+                    <li key={index} className={item.cName}>
+                        <Link to={item.path}>
+                            {item.icon}
+                            <span>{item.title}</span>
+                        </Link>
+                    </li>
+                )
+            })}
+        </ul>
+    </nav>
+      </div>
       <h1>JOB SEEKER</h1>
-      <table style={{float:'right'}}>
-      <tr><td><button><img className='App-logo' src='icon.png'/></button></td></tr>
-      <tr><td><label>My Profile</label></td></tr>
-      </table>
+      <br/><br/>
     
     <div id='wrapper' className='container'>
 <h2 className='listing'></h2>
